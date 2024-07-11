@@ -3,6 +3,7 @@ package management5.com.management5.controller;
 import ch.qos.logback.core.encoder.EchoEncoder;
 import lombok.RequiredArgsConstructor;
 import management5.com.management5.Enum.Role;
+import management5.com.management5.annotations.Authorization;
 import management5.com.management5.dto.payload.*;
 import management5.com.management5.exception.InvalidDataException;
 import management5.com.management5.exception.ResourceNotFoundException;
@@ -32,7 +33,10 @@ public class UserController {
 
 
 
+
+
     @GetMapping("/gettoken")
+    @Authorization
     public ResponseEntity<?> getToken(@RequestBody TokenUsername tokenUsername){
         try{
         String mesaage=userService.getToken(tokenUsername.getUsername());
@@ -42,6 +46,8 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e);
         }
     }
+
+
     @GetMapping("/get")
     public List<UserModel> getAllUsers() {
 

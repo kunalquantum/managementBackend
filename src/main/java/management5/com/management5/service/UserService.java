@@ -148,15 +148,12 @@ public class UserService {
 
     public String checkUsernameByToken(String Token){
 
-
-
             String username1 = jwtHelper.extractUsername(Token);
             UserModel user = userRepository.findByUsername(username1).orElseThrow(() -> new UnauthorizedException("UnAuthorized"));
 
             //check for existance
             if(user==null)
                 return "UnAuthorized  ";
-
 
             return "Authorized";
 

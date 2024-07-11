@@ -2,7 +2,9 @@ package management5.com.management5.aspect;
 
 
 import lombok.extern.slf4j.Slf4j;
+import management5.com.management5.controller.UserController;
 import management5.com.management5.model.UserModel;
+import management5.com.management5.service.UserService;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.*;
 import org.springframework.stereotype.Component;
@@ -13,6 +15,11 @@ import org.springframework.stereotype.Component;
 public class GeneralAspectInspector
 {
 
+    private static final UserController userController=null;
+
+
+
+
     @Pointcut("execution(* management5.com.management5.controller.*.*(..))")
     public void loggingpoint(){
 
@@ -21,7 +28,11 @@ public class GeneralAspectInspector
 
     @Before("loggingpoint()")
     public void before(JoinPoint joinPoint)
+
     {
+
+
+
         log.info("Before method invoked "+joinPoint.getSignature());
     }
 
