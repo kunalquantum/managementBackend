@@ -36,7 +36,7 @@ public class GeneralAspectInspector
             throwing = "userModel")
     public void returning(JoinPoint joinPoint, UserModel userModel){
         log.info("AfterReturning"+userModel);
-        
+
     }
 
     @AfterReturning(value ="execution(* management5.com.management5.controller.*.*(..))", returning = "userModel")
