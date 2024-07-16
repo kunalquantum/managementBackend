@@ -1,4 +1,4 @@
-package management5.com.management5;
+package management5.com.management5.advisior;
 
 import management5.com.management5.exception.*;
 import org.springframework.http.HttpStatus;

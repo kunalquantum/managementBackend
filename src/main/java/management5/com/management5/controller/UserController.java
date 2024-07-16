@@ -33,95 +33,42 @@ public class UserController {
     @GetMapping("/gettoken")
     @Authorization
     public ResponseEntity<?> getToken(@RequestBody TokenUsername tokenUsername){
-        try{
+
         String mesaage=userService.getToken(tokenUsername.getUsername());
-            return ResponseEntity.ok(mesaage);
-        }
-        catch (WhoAreYouException e ){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e);
-        }
+        return ResponseEntity.ok(mesaage);
+
+
     }
-
-
     @GetMapping("/get")
     public List<UserModel> getAllUsers() {
-
         return userRepository.findAll();
     }
 
-
-//
-//    @GetMapping("/{id}")
-//    public ResponseEntity<UserModel> getUserById(@PathVariable(value = "id") Long id) {
-//        return userRepository.findById(id)
-//                .map(ResponseEntity::ok)
-//                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
-//    }
-//
-//    @PatchMapping("/{id}/Role")
-//    @PreAuthorize("hasRole('ADMIN')")
-//    public ResponseEntity<?> assignRole(@PathVariable Long id, @RequestBody Role role) {
-//        return userRepository.findById(id)
-//                .map(userModel -> {
-//                    userModel.setRole(management5.com.management5.Enum.Role.DEFAULT);
-//                    userRepository.save(userModel);
-//                    return ResponseEntity.ok().build();
-//                })
-//                .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
-//    }
-
-//    @GetMapping("/isadmin")
-//    public ResponseEntity<?> CheckRole(@RequestBody TokenUsername tokenUsername)
-//    {
-//        return userService.CheckRole(tokenUsername.getUsername());
-//    }
-
     @PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody UserLogin userLogin){
-
-        try {
-            String isLoggedIn = userService.login(userLogin);
-
-            return ResponseEntity.ok(isLoggedIn);
-        }
-        catch (ResourceNahiMilaException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-        catch (WhoAreYouException e){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-        }
+        String isLoggedIn = userService.login(userLogin);
+        return ResponseEntity.ok(isLoggedIn);
     }
-
-    //url :
     @PostMapping("/register")
     public ResponseEntity<?> registerUser(
-
             @RequestBody UserRegisteration registeration
     )
     {
-            String message = userService.createEmployee(registeration);
-            return ResponseEntity.
-                    status(HttpStatus.CREATED).
-                    body(message);
-
-
-
-
-
+        String message = userService.createEmployee(registeration);
+        return ResponseEntity.
+                status(HttpStatus.CREATED).
+                body(message);
     }
-
     @GetMapping("/checktoken")
     public ResponseEntity<?> secureEndpoint(
             @RequestHeader(value = HttpHeaders.AUTHORIZATION, required = false) String authorization
     ){
         System.out.println(authorization);
-        try {
+
             String message = userService.checkUsernameByToken(authorization);
             return ResponseEntity.ok(message);
-        }
-        catch (WhoAreYouException e){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e);
-        }
+
+
 
     }
 
@@ -139,26 +86,22 @@ public class UserController {
 
     @PutMapping("/setrole")
     public ResponseEntity<?> roleadmin(@RequestBody Roleassign role){
-        try {
+
 
 
             String message = userService.AssignRole(role.getUsername(), role.getRole());
             return ResponseEntity.status(HttpStatus.OK).body(message);
-        }catch (WhoAreYouException e){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
-        }
+
     }
 
     @PutMapping("/setbyid/{id}")
     public ResponseEntity<?>setbyid(@PathVariable Long id, @RequestBody Role role){
 
-        try {
+
             String message = userService.setuserbyid(id, role);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
-        }
-        catch (WhoAreYouException e){
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e);
-        }
+
+
     }
 
     @PatchMapping("/{id}/Role")
