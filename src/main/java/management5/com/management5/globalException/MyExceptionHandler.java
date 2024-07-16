@@ -1,7 +1,7 @@
     package management5.com.management5.globalException;
 
 
-    import management5.com.management5.exception.UnauthorizedException;
+    import management5.com.management5.exception.WhoAreYouException;
     import org.springframework.http.HttpStatus;
     import org.springframework.ui.Model;
     import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -15,7 +15,7 @@
 
 
         @ResponseStatus(value = HttpStatus.FORBIDDEN)
-        @ExceptionHandler(value = UnauthorizedException.class)
+        @ExceptionHandler(value = WhoAreYouException.class)
         public String UnAuthorizedexceptional(Model m)
         {
             m.addAttribute("msg","Unathorized Exception");

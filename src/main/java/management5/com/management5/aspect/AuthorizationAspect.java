@@ -2,7 +2,7 @@ package management5.com.management5.aspect;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.AllArgsConstructor;
 import management5.com.management5.annotations.Authorization;
-import management5.com.management5.exception.UnauthorizedException;
+import management5.com.management5.exception.WhoAreYouException;
 import management5.com.management5.model.UserModel;
 import management5.com.management5.repository.UserRepository;
 import management5.com.management5.service.UserService;
@@ -37,7 +37,7 @@ public class AuthorizationAspect {
             Object result = joinPoint.proceed();
             return result;
         } else {
-            throw new UnauthorizedException("Unauthorized: Invalid user");
+            throw new WhoAreYouException("Unauthorized: Invalid user");
         }
     }
 

@@ -5,17 +5,13 @@ import management5.com.management5.Enum.Role;
 import management5.com.management5.dto.payload.TokenUsername;
 import management5.com.management5.dto.payload.UserLogin;
 import management5.com.management5.dto.payload.UserRegisteration;
-import management5.com.management5.exception.InvalidDataException;
-import management5.com.management5.exception.ResourceNotFoundException;
-import management5.com.management5.exception.UnauthorizedException;
+import management5.com.management5.exception.InvalidDataFoundException;
+import management5.com.management5.exception.ResourceNahiMilaException;
+import management5.com.management5.exception.WhoAreYouException;
 import management5.com.management5.model.UserModel;
 import management5.com.management5.repository.UserRepository;
 import management5.com.management5.security.JwtHelper;
-import org.apache.catalina.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import static management5.com.management5.Enum.Role.SALES;
 
@@ -56,49 +52,49 @@ public class UserService {
         //username
         if(null == userRegisteration)
 
-            throw new ResourceNotFoundException("To complete the registeration, please provide neccessary details");
+            throw new ResourceNahiMilaException("To complete the registeration, please provide neccessary details");
         //firstname
         if (userRegisteration.getUsername() == null || userRegisteration.getUsername().isBlank())
 
-            throw new InvalidDataException("Username already exist");
+            throw new InvalidDataFoundException("Username already exist");
 
         if (userRegisteration.getUsername().length() > 20)
 
-            throw new InvalidDataException("The username should not exceed 20 characters");
+            throw new InvalidDataFoundException("The username should not exceed 20 characters");
 
         if (checkUserByUsername(userRegisteration.getUsername()))
 
-            throw new InvalidDataException("The Username Already exists");
+            throw new InvalidDataFoundException("The Username Already exists");
 
         if(userRegisteration.getFirst_name() == null || userRegisteration.getFirst_name().isBlank())
 
-            throw  new InvalidDataException("Enter the firstname");
+            throw  new InvalidDataFoundException("Enter the firstname");
 
         if(userRegisteration.getLast_name() == null || userRegisteration.getLast_name().isBlank())
 
-            throw  new InvalidDataException("Enter the Last name");
+            throw  new InvalidDataFoundException("Enter the Last name");
 
         if(userRegisteration.getEmail() == null || userRegisteration.getEmail().isBlank())
 
-            throw new InvalidDataException("Enter the email for registeration");
+            throw new InvalidDataFoundException("Enter the email for registeration");
 
         if(userRegisteration.getPassword() == null || userRegisteration.getPassword().isBlank())
 
-            throw new InvalidDataException("Enter the password");
+            throw new InvalidDataFoundException("Enter the password");
 
         if(!userRegisteration.getPassword().equals(userRegisteration.getConfirm_password()))
 
-            throw new InvalidDataException("Mismatch confirm passoword and password");
+            throw new InvalidDataFoundException("Mismatch confirm passoword and password");
 
         if(userRegisteration.getRole()==null)
 
-            throw new InvalidDataException("provide the Role");
+            throw new InvalidDataFoundException("provide the Role");
 
         Role role=Enum.valueOf(Role.class,userRegisteration.getRole());
 
         if(checkUserByEmail(userRegisteration.getEmail()))
 
-            throw new InvalidDataException("Email Exists");
+            throw new InvalidDataFoundException("Email Exists");
 
 
         UserModel user= UserModel.builder()
@@ -128,10 +124,10 @@ public class UserService {
 
        UserModel user=userRepository
                 .findByUsernameOrEmail(userLogin.getUsername(),userLogin.getEmail())
-                .orElseThrow(() -> new ResourceNotFoundException("Username or email does not exists"));
+                .orElseThrow(() -> new ResourceNahiMilaException("Username or email does not exists"));
 
        if(!user.getPassword().equals(userLogin.getPassword()))
-           throw new UnauthorizedException("MIsmatch");
+           throw new WhoAreYouException("MIsmatch");
 
        String token = jwtHelper.generateToken(user.getUsername());
 
@@ -141,7 +137,7 @@ public class UserService {
 
     public String getToken(TokenUsername tokenUsername){
         UserModel user=userRepository
-                .findByUsername(tokenUsername.getUsername()).orElseThrow(() -> new ResourceNotFoundException("Username or email does not exists"));
+                .findByUsername(tokenUsername.getUsername()).orElseThrow(() -> new ResourceNahiMilaException("Username or email does not exists"));
 
         return jwtHelper.generateToken(user.getUsername());
     }
@@ -149,7 +145,7 @@ public class UserService {
     public String checkUsernameByToken(String Token){
 
             String username1 = jwtHelper.extractUsername(Token);
-            UserModel user = userRepository.findByUsername(username1).orElseThrow(() -> new UnauthorizedException("UnAuthorized"));
+            UserModel user = userRepository.findByUsername(username1).orElseThrow(() -> new WhoAreYouException("UnAuthorized"));
 
             //check for existance
             if(user==null)
@@ -166,7 +162,7 @@ public class UserService {
 
         if(userRepository.existsByUsername(username)){
 
-            UserModel user=userRepository.findByUsername(username).orElseThrow(()-> new UnauthorizedException("username does exist"));
+            UserModel user=userRepository.findByUsername(username).orElseThrow(()-> new WhoAreYouException("username does exist"));
             Role role=user.getRole();
 
 
@@ -188,7 +184,7 @@ public class UserService {
     public String  AssignRole(String username,Role role){
 
         UserModel userModel=userRepository.findByUsername(username).orElseThrow(() ->
-                new UnauthorizedException("No such User Found"));
+                new WhoAreYouException("No such User Found"));
 
         userModel.setRole(role);
 
@@ -216,7 +212,7 @@ public class UserService {
     {
         String username=jwtHelper.extractUsername(tokenUsername.getUsername());
 
-        UserModel user=userRepository.findByUsername(username).orElseThrow(()->new UnauthorizedException("Username not found"));
+        UserModel user=userRepository.findByUsername(username).orElseThrow(()->new WhoAreYouException("Username not found"));
         if(isadmin(tokenUsername))
             user.setRole(role);
         return "ADMIN set successfully";
@@ -226,7 +222,7 @@ public class UserService {
 
     public String setuserbyid(Long id,Role role){
 
-        UserModel user=userRepository.findById(id).orElseThrow(()->new UnauthorizedException("The ID does not exists"));
+        UserModel user=userRepository.findById(id).orElseThrow(()->new WhoAreYouException("The ID does not exists"));
 
 
 
@@ -253,7 +249,7 @@ public class UserService {
     public Role checkRole(TokenUsername tokenUsername){
 
         String username=jwtHelper.extractUsername(tokenUsername.getUsername());
-        UserModel user=userRepository.findByUsername(username).orElseThrow(()->new UnauthorizedException("Username not found"));
+        UserModel user=userRepository.findByUsername(username).orElseThrow(()->new WhoAreYouException("Username not found"));
 
         return user.getRole();
 
@@ -279,7 +275,7 @@ public class UserService {
 
     public UserModel getCurrentUser(Long id){
         return userRepository.findById(id).orElseThrow(
-                ()->new UnauthorizedException("User Does Not Exist"));
+                ()->new WhoAreYouException("User Does Not Exist"));
     }
 
 

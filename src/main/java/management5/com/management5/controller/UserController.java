@@ -1,22 +1,17 @@
 package management5.com.management5.controller;
 
-import ch.qos.logback.core.encoder.EchoEncoder;
 import lombok.RequiredArgsConstructor;
 import management5.com.management5.Enum.Role;
 import management5.com.management5.annotations.Authorization;
 import management5.com.management5.dto.payload.*;
-import management5.com.management5.exception.InvalidDataException;
-import management5.com.management5.exception.ResourceNotFoundException;
-import management5.com.management5.exception.UnauthorizedException;
+import management5.com.management5.exception.ResourceNahiMilaException;
+import management5.com.management5.exception.WhoAreYouException;
 import management5.com.management5.model.UserModel;
 import management5.com.management5.repository.UserRepository;
 import management5.com.management5.service.UserService;
-import org.apache.catalina.User;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -42,7 +37,7 @@ public class UserController {
         String mesaage=userService.getToken(tokenUsername.getUsername());
             return ResponseEntity.ok(mesaage);
         }
-        catch (UnauthorizedException e ){
+        catch (WhoAreYouException e ){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e);
         }
     }
@@ -89,10 +84,10 @@ public class UserController {
 
             return ResponseEntity.ok(isLoggedIn);
         }
-        catch (ResourceNotFoundException e){
+        catch (ResourceNahiMilaException e){
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
         }
-        catch (UnauthorizedException e){
+        catch (WhoAreYouException e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
@@ -104,22 +99,12 @@ public class UserController {
             @RequestBody UserRegisteration registeration
     )
     {
-        try {
             String message = userService.createEmployee(registeration);
             return ResponseEntity.
                     status(HttpStatus.CREATED).
                     body(message);
-        }
-        catch(ResourceNotFoundException e){
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
-        }
-        catch (InvalidDataException e){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
-        }
-        catch (IllegalArgumentException e ){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("The Roles only allowed are :[DEFAULT, SALES, ADMIN]");
 
-        }
+
 
 
 
@@ -134,7 +119,7 @@ public class UserController {
             String message = userService.checkUsernameByToken(authorization);
             return ResponseEntity.ok(message);
         }
-        catch (UnauthorizedException e){
+        catch (WhoAreYouException e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e);
         }
 
@@ -159,7 +144,7 @@ public class UserController {
 
             String message = userService.AssignRole(role.getUsername(), role.getRole());
             return ResponseEntity.status(HttpStatus.OK).body(message);
-        }catch (UnauthorizedException e){
+        }catch (WhoAreYouException e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
         }
     }
@@ -171,7 +156,7 @@ public class UserController {
             String message = userService.setuserbyid(id, role);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
         }
-        catch (UnauthorizedException e){
+        catch (WhoAreYouException e){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e);
         }
     }

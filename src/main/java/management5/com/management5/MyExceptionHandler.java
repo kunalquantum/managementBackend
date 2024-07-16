@@ -1,35 +1,50 @@
 package management5.com.management5;
 
-import org.bouncycastle.math.raw.Mod;
+import management5.com.management5.exception.*;
 import org.springframework.http.HttpStatus;
-import org.springframework.ui.Model;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 
 @RestControllerAdvice
 public class MyExceptionHandler {
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(value = NullPointerException.class)
-    public String exceptionhandlerNull(Model m){
-        m.addAttribute("msg","Null pointer excception");
-        return "Null_page";
+
+    @ExceptionHandler(value = WhoAreYouException.class)
+    public ResponseEntity<?> UnAuthorizedException(WhoAreYouException e){
+
+        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(e.getMessage());
+    }
+    @ExceptionHandler(value = ResourceNahiMilaException.class)
+    public ResponseEntity<?> resourseNotFoundException(ResourceNahiMilaException e){
+
+        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(e.getMessage());
     }
 
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(value = NumberFormatException.class)
-    public String exceptionhandlerNumberFormatException(Model m){
-        m.addAttribute("msg","Number format excception has occured");
-        return "Null_page";
+    @ExceptionHandler(value = DatabaseConnectivityException.class)
+    public ResponseEntity<?> exceptionhandlerbadrequest(DatabaseConnectivityException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
 
-    @ResponseStatus(value = HttpStatus.INTERNAL_SERVER_ERROR)
-    @ExceptionHandler(value = Exception.class)
-    public String exceptionhandlerGeneric(Model m){
-        m.addAttribute("msg","excception has occured ");
-        return "Null_page";
+    @ExceptionHandler(value = InterruptionException.class)
+    public ResponseEntity<?> exceptionhandlerbadrequest(InterruptionException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
     }
+
+    @ExceptionHandler(value = SamaySamamptException.class)
+    public ResponseEntity<?> exceptionhandlerbadrequest(SamaySamamptException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+    @ExceptionHandler(value = ParsingException.class)
+    public ResponseEntity<?> exceptionhandlerbadrequest(ParsingException e){
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(e.getMessage());
+    }
+
+
+
+
+
 
 
 
