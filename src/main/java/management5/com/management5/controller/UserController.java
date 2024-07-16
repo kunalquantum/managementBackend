@@ -21,14 +21,8 @@ import java.util.List;
 @RequiredArgsConstructor
 public class UserController {
 
-
-
     private final UserRepository userRepository;
     private final UserService userService;
-
-
-
-
 
     @GetMapping("/gettoken")
     @Authorization
@@ -67,41 +61,17 @@ public class UserController {
 
             String message = userService.checkUsernameByToken(authorization);
             return ResponseEntity.ok(message);
-
-
-
     }
-
-
-//    @PutMapping("/setrolebyusername")
-//    public ResponseEntity<?> setrolebyusername(@RequestBody Roleassign tokenUsername)
-//
-//    {
-//        String message=userService.setuserbuusername(tokenUsername.getRole(),tokenUsername.getUsername());
-//
-//        return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
-//    }
-
-
-
     @PutMapping("/setrole")
     public ResponseEntity<?> roleadmin(@RequestBody Roleassign role){
-
-
-
             String message = userService.AssignRole(role.getUsername(), role.getRole());
             return ResponseEntity.status(HttpStatus.OK).body(message);
-
     }
 
     @PutMapping("/setbyid/{id}")
     public ResponseEntity<?>setbyid(@PathVariable Long id, @RequestBody Role role){
-
-
             String message = userService.setuserbyid(id, role);
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(message);
-
-
     }
 
     @PatchMapping("/{id}/Role")
