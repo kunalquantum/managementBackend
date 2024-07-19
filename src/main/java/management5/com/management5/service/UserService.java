@@ -134,7 +134,6 @@ public class UserService {
 
 
         fileModel file=fileModel.builder()
-                .name(adminFile.getName())
                 .path(adminFile.getPath())
                 .origin(adminFile.getOrigin())
                 .build();

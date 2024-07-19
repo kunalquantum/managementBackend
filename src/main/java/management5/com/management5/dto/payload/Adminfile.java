@@ -10,7 +10,6 @@ import lombok.*;
 @AllArgsConstructor
 public class Adminfile {
     private String username;
-    private String name;
     private String path;
     private String origin;
 }
