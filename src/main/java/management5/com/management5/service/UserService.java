@@ -25,6 +25,8 @@ public class UserService {
     private final UserRepository userRepository;
 
 
+    private final Filerepository filerepository;
+
     private final JwtHelper jwtHelper;
 
     public String getToken(String username){
@@ -131,12 +133,14 @@ public class UserService {
         UserModel user=userRepository.findByUsername(username).orElseThrow(()->new WhoAreYouException("Only admins can create a file "));
 
 
-        Adminfile file=adminFile.builder()
+        fileModel file=fileModel.builder()
                 .name(adminFile.getName())
                 .path(adminFile.getPath())
                 .origin(adminFile.getOrigin())
                 .build();
 
+
+        filerepository.save(file);
 
 
 

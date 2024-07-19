@@ -24,8 +24,15 @@ public class UserController {
     private final UserRepository userRepository;
     private final UserService userService;
 
+    @PostMapping("/setfile")
+    public ResponseEntity<?> createfile(@RequestBody Adminfile adminfile){
+        String message=userService.createFile(adminfile);
+        return ResponseEntity.status(HttpStatus.CREATED).body(message);
+    }
+
     @GetMapping("/gettoken")
     @Authorization
+
     public ResponseEntity<?> getToken(@RequestBody TokenUsername tokenUsername){
 
         String mesaage=userService.getToken(tokenUsername.getUsername());
@@ -33,6 +40,7 @@ public class UserController {
 
 
     }
+
     @GetMapping("/get")
     public List<UserModel> getAllUsers() {
         return userRepository.findAll();
