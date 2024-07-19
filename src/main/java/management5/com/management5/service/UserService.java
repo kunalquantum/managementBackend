@@ -26,6 +26,7 @@ public class UserService {
 
     private final Filerepository filerepository;
 
+    private final Eventrepository eventrepository;
     private final JwtHelper jwtHelper;
 
     public String getToken(String username){
@@ -136,6 +137,8 @@ public class UserService {
                .link(eventfile.getLink())
                .build();
 
+
+       eventrepository.save(event);
 
 
         return "Added Event";

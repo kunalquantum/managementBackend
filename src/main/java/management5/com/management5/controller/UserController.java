@@ -24,6 +24,14 @@ public class UserController {
     private final UserRepository userRepository;
     private final UserService userService;
 
+
+    
+
+    @PostMapping("/setevent")
+    public ResponseEntity<?> setevent(@RequestBody Eventfile eventfile){
+        String message=userService.createEvent(eventfile);
+        return ResponseEntity.status(HttpStatus.CREATED).body(message);
+    }
     @PostMapping("/setfile")
     public ResponseEntity<?> createfile(@RequestBody Adminfile adminfile){
         String message=userService.createFile(adminfile);
