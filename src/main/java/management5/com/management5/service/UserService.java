@@ -5,10 +5,13 @@ import management5.com.management5.Enum.Role;
 import management5.com.management5.dto.payload.TokenUsername;
 import management5.com.management5.dto.payload.UserLogin;
 import management5.com.management5.dto.payload.UserRegisteration;
+import management5.com.management5.dto.payload.Adminfile;
 import management5.com.management5.exception.InvalidDataFoundException;
 import management5.com.management5.exception.ResourceNahiMilaException;
 import management5.com.management5.exception.WhoAreYouException;
 import management5.com.management5.model.UserModel;
+import management5.com.management5.model.fileModel;
+import management5.com.management5.repository.Filerepository;
 import management5.com.management5.repository.UserRepository;
 import management5.com.management5.security.JwtHelper;
 import org.springframework.stereotype.Service;
@@ -117,6 +120,28 @@ public class UserService {
         userRepository.save(user);
 
         return "SuccessFully Registered";
+    }
+
+
+
+    public String createFile(Adminfile adminFile){
+
+
+        String username=jwtHelper.extractUsername(adminFile.getUsername());
+        UserModel user=userRepository.findByUsername(username).orElseThrow(()->new WhoAreYouException("Only admins can create a file "));
+
+
+        Adminfile file=adminFile.builder()
+                .name(adminFile.getName())
+                .path(adminFile.getPath())
+                .origin(adminFile.getOrigin())
+                .build();
+
+
+
+
+return "done";
+
     }
 
     public String login(UserLogin userLogin)
