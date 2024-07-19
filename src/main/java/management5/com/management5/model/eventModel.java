@@ -23,4 +23,6 @@ public class eventModel {
     private String description;
 
     private Date date;
+
+    private String link;
 }

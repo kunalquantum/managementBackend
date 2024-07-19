@@ -2,15 +2,14 @@ package management5.com.management5.service;
 
 import lombok.RequiredArgsConstructor;
 import management5.com.management5.Enum.Role;
-import management5.com.management5.dto.payload.TokenUsername;
-import management5.com.management5.dto.payload.UserLogin;
-import management5.com.management5.dto.payload.UserRegisteration;
-import management5.com.management5.dto.payload.Adminfile;
+import management5.com.management5.dto.payload.*;
 import management5.com.management5.exception.InvalidDataFoundException;
 import management5.com.management5.exception.ResourceNahiMilaException;
 import management5.com.management5.exception.WhoAreYouException;
 import management5.com.management5.model.UserModel;
+import management5.com.management5.model.eventModel;
 import management5.com.management5.model.fileModel;
+import management5.com.management5.repository.Eventrepository;
 import management5.com.management5.repository.Filerepository;
 import management5.com.management5.repository.UserRepository;
 import management5.com.management5.security.JwtHelper;
@@ -124,6 +123,24 @@ public class UserService {
         return "SuccessFully Registered";
     }
 
+    public String createEvent(Eventfile eventfile){
+
+
+        String username=jwtHelper.extractUsername(eventfile.getUsername());
+        UserModel user=userRepository.findByUsername(username).orElseThrow(()->new WhoAreYouException("Only admins can create a file "));
+
+
+       eventModel event= eventModel.builder()
+               .description(eventfile.getDescription())
+               .date(eventfile.getDate())
+               .link(eventfile.getLink())
+               .build();
+
+
+
+        return "Added Event";
+
+    }
 
 
     public String createFile(Adminfile adminFile){

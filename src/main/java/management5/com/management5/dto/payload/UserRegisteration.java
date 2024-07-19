@@ -17,5 +17,5 @@ public class UserRegisteration {
     private String password;
     private String confirm_password;
     private String role;
-    //private Role role;
+
 }
