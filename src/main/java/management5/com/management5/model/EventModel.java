@@ -12,7 +12,7 @@ import java.util.Date;
 @NoArgsConstructor
 @Entity
 @Table(name = "events")
-public class eventModel {
+public class EventModel {
 
     private String path;
 

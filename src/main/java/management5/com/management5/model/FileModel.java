@@ -10,7 +10,7 @@ import lombok.*;
 @NoArgsConstructor
 @Entity
 @Table(name = "files")
-public class fileModel {
+public class FileModel {
 
 
 
