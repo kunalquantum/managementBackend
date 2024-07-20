@@ -32,25 +32,35 @@ public class UserController {
     }
 
     @PostMapping("/setevent")
-    public ResponseEntity<?> setevent(@RequestBody Eventfile eventfile){
+    public ResponseEntity<?> setevent(
+            @RequestBody Eventfile eventfile){
+
         String message=userService.createEvent(eventfile);
-        return ResponseEntity.status(HttpStatus.CREATED).body(message);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(message);
     }
     @PostMapping("/setfile")
-    public ResponseEntity<?> createfile(@RequestBody Adminfile adminfile){
-        String message=userService.createFile(adminfile);
-        return ResponseEntity.status(HttpStatus.CREATED).body(message);
+    public ResponseEntity<?> createfile(
+            @RequestBody Adminfile adminfile
+    ){
+        String message = userService.createFile(adminfile);
+
+        return ResponseEntity
+                .status(HttpStatus.CREATED)
+                .body(message);
     }
 
     @GetMapping("/gettoken")
     @Authorization
-
-    public ResponseEntity<?> getToken(@RequestBody TokenUsername tokenUsername){
+    public ResponseEntity<?> getToken(
+            @RequestBody TokenUsername tokenUsername){
 
         String mesaage=userService.getToken(tokenUsername.getUsername());
-        return ResponseEntity.ok(mesaage);
 
-
+        return ResponseEntity
+                .ok(mesaage);
     }
 
     @GetMapping("/get")
