@@ -268,7 +268,7 @@ return "done";
     }
 
 
-    public String setuserbuusername(Role role,TokenUsername tokenUsername)
+    public String setuserbuusername(Role role,Username tokenUsername)
     {
         String username=jwtHelper.extractUsername(tokenUsername.getUsername());
 
@@ -324,7 +324,7 @@ return "done";
         return false;
     }
 
-    public boolean isSales(TokenUsername tokenUsername){
+    public boolean isSales(Username tokenUsername){
 
         Role role=checkRole(tokenUsername);
         if(SALES.equals(role))
