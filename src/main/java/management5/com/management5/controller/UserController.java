@@ -7,6 +7,7 @@ import management5.com.management5.dto.payload.*;
 import management5.com.management5.exception.ResourceNahiMilaException;
 import management5.com.management5.exception.WhoAreYouException;
 import management5.com.management5.model.UserModel;
+import management5.com.management5.model.eventModel;
 import management5.com.management5.repository.UserRepository;
 import management5.com.management5.service.UserService;
 import org.springframework.http.HttpHeaders;
@@ -25,7 +26,11 @@ public class UserController {
     private final UserService userService;
 
 
-    
+    @GetMapping("/getevent")
+    public ResponseEntity<?> getEvents(){
+        List<eventModel> list=
+        return ResponseEntity.status().body();
+    }
 
     @PostMapping("/setevent")
     public ResponseEntity<?> setevent(@RequestBody Eventfile eventfile){

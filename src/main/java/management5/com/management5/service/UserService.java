@@ -15,6 +15,8 @@ import management5.com.management5.repository.UserRepository;
 import management5.com.management5.security.JwtHelper;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 import static management5.com.management5.Enum.Role.SALES;
 
 @Service
@@ -122,6 +124,10 @@ public class UserService {
         userRepository.save(user);
 
         return "SuccessFully Registered";
+    }
+
+    public List<eventModel> getevents(){
+        return eventrepository.findAll();
     }
 
     public String createEvent(Eventfile eventfile){
