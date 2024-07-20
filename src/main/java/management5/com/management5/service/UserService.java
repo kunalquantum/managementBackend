@@ -13,6 +13,9 @@ import management5.com.management5.repository.Eventrepository;
 import management5.com.management5.repository.Filerepository;
 import management5.com.management5.repository.UserRepository;
 import management5.com.management5.security.JwtHelper;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Arrays;
@@ -127,9 +130,10 @@ public class UserService {
         return "SuccessFully Registered";
     }
 
-    public List<EventModel> getevents(){
-        List<EventModel> list= Arrays.stream(eventrepository.findall().stream().toArray()).toArray();
-        return eventrepository.findAll();
+    public List<EventModel> getevents(Username username){
+        checkRole(username);
+      List<EventModel> list =eventrepository.findAll();
+      return list;
     }
 
     public String createEvent(Eventfile eventfile){
@@ -302,9 +306,9 @@ return "done";
 
 
 
-    public Role checkRole(TokenUsername tokenUsername){
+    public Role checkRole(Username username1){
 
-        String username=jwtHelper.extractUsername(tokenUsername.getUsername());
+        String username=jwtHelper.extractUsername(username1.getUsername());
         UserModel user=userRepository.findByUsername(username).orElseThrow(()->new WhoAreYouException("Username not found"));
 
         return user.getRole();
@@ -312,7 +316,7 @@ return "done";
 
     }
 
-    public boolean isadmin(TokenUsername tokenUsername)
+    public boolean isadmin(Username tokenUsername)
     {
         Role role=checkRole(tokenUsername);
         if(Role.ADMIN.equals(role)){

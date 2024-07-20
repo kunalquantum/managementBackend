@@ -26,8 +26,8 @@ public class UserController {
 
     @GetMapping("/getevent")
     public ResponseEntity<?> getEvents(){
-        List<EventModel> list=
-        return ResponseEntity.status().body();
+        List<EventModel> list=userService.getevents();
+        return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 
     @PostMapping("/setevent")

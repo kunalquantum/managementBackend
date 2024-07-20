@@ -8,8 +8,5 @@ import java.util.List;
 public interface Eventrepository extends JpaRepository<EventModel,Long> {
 
 
-    @Override
-    public List<EventModel> getEvents(){
-    List<EventModel> findAll();
-    }
+  
 }
