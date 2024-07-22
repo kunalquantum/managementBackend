@@ -7,8 +7,8 @@ import management5.com.management5.exception.InvalidDataFoundException;
 import management5.com.management5.exception.ResourceNahiMilaException;
 import management5.com.management5.exception.WhoAreYouException;
 import management5.com.management5.model.UserModel;
-import management5.com.management5.model.EventModel;
-import management5.com.management5.model.FileModel;
+import management5.com.management5.model.eventModel;
+import management5.com.management5.model.fileModel;
 import management5.com.management5.repository.Eventrepository;
 import management5.com.management5.repository.Filerepository;
 import management5.com.management5.repository.UserRepository;
@@ -130,9 +130,9 @@ public class UserService {
         return "SuccessFully Registered";
     }
 
-    public List<EventModel> getevents(Username username){
+    public List<eventModel> getevents(Username username){
         checkRole(username);
-      List<EventModel> list =eventrepository.findAll();
+      List<eventModel> list =eventrepository.findAll();
       return list;
     }
 
@@ -143,7 +143,7 @@ public class UserService {
         UserModel user=userRepository.findByUsername(username).orElseThrow(()->new WhoAreYouException("Only admins can create a file "));
 
 
-       EventModel event= EventModel.builder()
+       eventModel event= eventModel.builder()
                .description(eventfile.getDescription())
                .date(eventfile.getDate())
                .link(eventfile.getLink())
@@ -165,7 +165,7 @@ public class UserService {
         UserModel user=userRepository.findByUsername(username).orElseThrow(()->new WhoAreYouException("Only admins can create a file "));
 
 
-        FileModel file= FileModel.builder()
+        fileModel file= fileModel.builder()
                 .path(adminFile.getPath())
                 .origin(adminFile.getOrigin())
                 .build();
