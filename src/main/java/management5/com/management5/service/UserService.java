@@ -136,6 +136,9 @@ public class UserService {
       return list;
     }
 
+    public String createOffer(Offers offers){
+
+    }
     public String createEvent(Eventfile eventfile){
 
 
