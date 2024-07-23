@@ -12,6 +12,6 @@ import java.util.Optional;
 @Repository
 public interface Filerepository extends JpaRepository<FileModel,Long> {
 
-    List<FileModel> findall();
+    List<FileModel> findAll();
 
 }

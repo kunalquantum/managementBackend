@@ -4,13 +4,14 @@ import lombok.RequiredArgsConstructor;
 import management5.com.management5.Enum.Role;
 import management5.com.management5.annotations.Authorization;
 import management5.com.management5.dto.payload.*;
+import management5.com.management5.exception.ResourceNahiMilaException;
 import management5.com.management5.model.EventModel;
+import management5.com.management5.model.OfferModel;
 import management5.com.management5.model.UserModel;
 
-import management5.com.management5.model.EventModel;
+import management5.com.management5.repository.OfferRepository;
 import management5.com.management5.repository.UserRepository;
 import management5.com.management5.service.UserService;
-import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,6 +26,46 @@ public class UserController {
 
     private final UserRepository userRepository;
     private final UserService userService;
+    private final OfferRepository offerRepository;
+
+    @PostMapping("/setEvent")
+    public ResponseEntity<?> setOffer(@RequestBody Offers offer){
+        String message=userService.createOffer(offer);
+
+        return ResponseEntity.status(HttpStatus.CREATED).body(message);
+    }
+
+    @PutMapping("/updateoffer/desc")
+    public ResponseEntity<?> updateofferdesc(
+            @RequestBody Updateoffer update){
+
+        String name=update.getName();
+        OfferModel offerModel=offerRepository.findByName(name).orElseThrow(()->new ResourceNahiMilaException("Offer not found "));
+        String message=userService.updateOffer(update,1);
+        return ResponseEntity.status(HttpStatus.OK).body(message);
+
+    }
+
+    @PutMapping("/updateoffer/startdate")
+    public ResponseEntity<?> updateofferstartdate(
+            @RequestBody Updateoffer update){
+
+        String name=update.getName();
+        OfferModel offerModel=offerRepository.findByName(name).orElseThrow(()->new ResourceNahiMilaException("Offer not found "));
+        String message=userService.updateOffer(update,2);
+        return ResponseEntity.status(HttpStatus.OK).body(message);
+
+    }
+    @PutMapping("/updateoffer/enddate")
+    public ResponseEntity<?> updateoffer(
+            @RequestBody Updateoffer update){
+
+        String name=update.getName();
+        OfferModel offerModel=offerRepository.findByName(name).orElseThrow(()->new ResourceNahiMilaException("Offer not found "));
+        String message=userService.updateOffer(update,3);
+        return ResponseEntity.status(HttpStatus.OK).body(message);
+
+    }
 
 
     @GetMapping("/getevent")

@@ -15,6 +15,7 @@ import management5.com.management5.repository.Filerepository;
 import management5.com.management5.repository.OfferRepository;
 import management5.com.management5.repository.UserRepository;
 import management5.com.management5.security.JwtHelper;
+import org.springframework.core.StandardReflectionParameterNameDiscoverer;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
@@ -30,6 +31,7 @@ import static management5.com.management5.Enum.Role.SALES;
 public class UserService {
 
     private final UserRepository userRepository;
+
 
 
     private  final OfferRepository offerRepository;
@@ -152,6 +154,34 @@ public class UserService {
 
 
         return "Successfully added ";
+    }
+
+    public String updateOffer(Updateoffer updateoffer,int choice){
+
+        String name=updateoffer.getName();
+
+
+        OfferModel offerModel=offerRepository.findByName(name).orElseThrow(()->new ResourceNahiMilaException());
+
+        if(choice==1)
+            offerModel.setDescription(updateoffer.getDescription());
+
+        else if (choice==2)
+            offerModel.setStart_date(updateoffer.getStart_date());
+
+        else if(choice==3)
+            offerModel.setEnd_date(updateoffer.getEnd_date());
+
+        return "Updated Successfully";
+    }
+
+    public String deleteOffer(String name){
+        if(offerRepository.findByName(name).isEmpty()||offerRepository.findByName(name).equals(null))
+            return "Not Found";
+        OfferModel offer=offerRepository.findByName(name).orElseThrow(()->new ResourceNahiMilaException());
+        offerRepository.delete(offer);
+        return "deleted the offer";
+
     }
 
 

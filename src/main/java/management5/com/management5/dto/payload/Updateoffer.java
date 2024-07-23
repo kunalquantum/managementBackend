@@ -10,7 +10,8 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 
-public class updateoffer {
+public class Updateoffer {
+    private String Name;
     private String Description;
     private LocalDateTime start_date;
     private LocalDateTime end_date;
