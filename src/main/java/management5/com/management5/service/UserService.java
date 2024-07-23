@@ -6,11 +6,13 @@ import management5.com.management5.dto.payload.*;
 import management5.com.management5.exception.InvalidDataFoundException;
 import management5.com.management5.exception.ResourceNahiMilaException;
 import management5.com.management5.exception.WhoAreYouException;
+import management5.com.management5.model.OfferModel;
 import management5.com.management5.model.UserModel;
-import management5.com.management5.model.eventModel;
-import management5.com.management5.model.fileModel;
+import management5.com.management5.model.EventModel;
+import management5.com.management5.model.FileModel;
 import management5.com.management5.repository.Eventrepository;
 import management5.com.management5.repository.Filerepository;
+import management5.com.management5.repository.OfferRepository;
 import management5.com.management5.repository.UserRepository;
 import management5.com.management5.security.JwtHelper;
 import org.springframework.http.HttpStatus;
@@ -30,6 +32,7 @@ public class UserService {
     private final UserRepository userRepository;
 
 
+    private  final OfferRepository offerRepository;
     private final Filerepository filerepository;
 
     private final Eventrepository eventrepository;
@@ -130,15 +133,34 @@ public class UserService {
         return "SuccessFully Registered";
     }
 
-    public List<eventModel> getevents(Username username){
+    public List<EventModel> getevents(Username username){
         checkRole(username);
-      List<eventModel> list =eventrepository.findAll();
+      List<EventModel> list =eventrepository.findAll();
       return list;
     }
-
+// Offer section
     public String createOffer(Offers offers){
 
+        OfferModel offerModel=OfferModel.builder()
+                .offer_name(offers.getOffer_name())
+                .Description(offers.getDescription())
+                .start_date(offers.getStart_date())
+                .end_date(offers.getEnd_date())
+                .build();
+
+        offerRepository.save(offerModel);
+
+
+        return "Successfully added ";
     }
+
+
+
+
+
+
+
+///
     public String createEvent(Eventfile eventfile){
 
 
@@ -146,7 +168,9 @@ public class UserService {
         UserModel user=userRepository.findByUsername(username).orElseThrow(()->new WhoAreYouException("Only admins can create a file "));
 
 
-       eventModel event= eventModel.builder()
+
+
+       EventModel event= EventModel.builder()
                .description(eventfile.getDescription())
                .date(eventfile.getDate())
                .link(eventfile.getLink())
@@ -168,7 +192,7 @@ public class UserService {
         UserModel user=userRepository.findByUsername(username).orElseThrow(()->new WhoAreYouException("Only admins can create a file "));
 
 
-        fileModel file= fileModel.builder()
+        FileModel file= FileModel.builder()
                 .path(adminFile.getPath())
                 .origin(adminFile.getOrigin())
                 .build();

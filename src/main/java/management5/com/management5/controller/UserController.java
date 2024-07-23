@@ -4,9 +4,10 @@ import lombok.RequiredArgsConstructor;
 import management5.com.management5.Enum.Role;
 import management5.com.management5.annotations.Authorization;
 import management5.com.management5.dto.payload.*;
+import management5.com.management5.model.EventModel;
 import management5.com.management5.model.UserModel;
 
-import management5.com.management5.model.eventModel;
+import management5.com.management5.model.EventModel;
 import management5.com.management5.repository.UserRepository;
 import management5.com.management5.service.UserService;
 import org.springframework.data.repository.query.Param;
@@ -28,7 +29,7 @@ public class UserController {
 
     @GetMapping("/getevent")
     public ResponseEntity<?> getEvents(@PathVariable Username username){
-        List<eventModel> list=userService.getevents(username);
+        List<EventModel> list=userService.getevents(username);
         return ResponseEntity.status(HttpStatus.OK).body(list);
     }
 

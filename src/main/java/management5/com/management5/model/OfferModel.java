@@ -3,7 +3,7 @@ package management5.com.management5.model;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.math.BigDecimal;
+
 import java.time.LocalDateTime;
 
 @Builder
