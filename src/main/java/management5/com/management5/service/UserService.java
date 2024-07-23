@@ -156,20 +156,54 @@ public class UserService {
         return "Successfully added ";
     }
 
-    public String updateOffer(Updateoffer updateoffer,int choice){
+    public String updateOfferByDescription(Updateofferdescripton updateofferdescripton){
+        String name=updateofferdescripton.getUsername();
+        OfferModel offerModel=offerRepository.findByName(name).orElseThrow(()->new ResourceNahiMilaException());
+
+
+        offerModel.setOffer_name(updateofferdescripton.getDescription());
+
+        offerRepository.save(offerModel);
+
+
+        return "Description Updated";
+    }
+
+    public String UpdateOfferStartDate(UpdateOfferStartDate updateOfferStartDate)
+    {
+
+        String name=updateOfferStartDate.getName();
+        OfferModel offerModel=offerRepository.findByName(name).orElseThrow(()->new ResourceNahiMilaException("No such offer found"));
+        offerModel.setStart_date(updateOfferStartDate.getStart_date());
+        offerRepository.save(offerModel);
+        return "Updated Start date";
+    }
+
+    public String UpdateOfferEndDate(UpdateOfferEndDate updateOfferEndDate){
+        String name=updateOfferEndDate.getName();
+        OfferModel offerModel=offerRepository.findByName(name).orElseThrow(()->new ResourceNahiMilaException("No such offer found"));
+        offerModel.setStart_date(updateOfferEndDate.getEnd_date());
+        offerRepository.save(offerModel);
+        return "Updated End date";
+
+    }
+
+
+
+    public String updateOffer(Updateoffer updateoffer){
 
         String name=updateoffer.getName();
 
 
         OfferModel offerModel=offerRepository.findByName(name).orElseThrow(()->new ResourceNahiMilaException());
 
-        if(choice==1)
+
             offerModel.setDescription(updateoffer.getDescription());
 
-        else if (choice==2)
+
             offerModel.setStart_date(updateoffer.getStart_date());
 
-        else if(choice==3)
+
             offerModel.setEnd_date(updateoffer.getEnd_date());
 
         return "Updated Successfully";

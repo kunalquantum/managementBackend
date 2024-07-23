@@ -37,11 +37,11 @@ public class UserController {
 
     @PutMapping("/updateoffer/desc")
     public ResponseEntity<?> updateofferdesc(
-            @RequestBody Updateoffer update){
+            @RequestBody Updateofferdescripton update){
 
-        String name=update.getName();
+        String name=update.getUsername();
         OfferModel offerModel=offerRepository.findByName(name).orElseThrow(()->new ResourceNahiMilaException("Offer not found "));
-        String message=userService.updateOffer(update,1);
+        String message=userService.updateOffer(update);
         return ResponseEntity.status(HttpStatus.OK).body(message);
 
     }
