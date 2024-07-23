@@ -1,5 +1,4 @@
 package management5.com.management5.controller;
-
 import lombok.RequiredArgsConstructor;
 import management5.com.management5.Enum.Role;
 import management5.com.management5.annotations.Authorization;
@@ -8,7 +7,6 @@ import management5.com.management5.exception.ResourceNahiMilaException;
 import management5.com.management5.model.EventModel;
 import management5.com.management5.model.OfferModel;
 import management5.com.management5.model.UserModel;
-
 import management5.com.management5.repository.OfferRepository;
 import management5.com.management5.repository.UserRepository;
 import management5.com.management5.service.UserService;
@@ -16,7 +14,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
 
 @RestController
@@ -41,7 +38,7 @@ public class UserController {
 
         String name=update.getUsername();
         OfferModel offerModel=offerRepository.findByName(name).orElseThrow(()->new ResourceNahiMilaException("Offer not found "));
-        String message=userService.updateOffer(update);
+        String message=userService.updateOfferByDescription(update);
         return ResponseEntity.status(HttpStatus.OK).body(message);
 
     }
@@ -52,7 +49,7 @@ public class UserController {
 
         String name=update.getName();
         OfferModel offerModel=offerRepository.findByName(name).orElseThrow(()->new ResourceNahiMilaException("Offer not found "));
-        String message=userService.updateOffer(update,2);
+        String message=userService.updateOffer(update);
         return ResponseEntity.status(HttpStatus.OK).body(message);
 
     }
@@ -62,7 +59,7 @@ public class UserController {
 
         String name=update.getName();
         OfferModel offerModel=offerRepository.findByName(name).orElseThrow(()->new ResourceNahiMilaException("Offer not found "));
-        String message=userService.updateOffer(update,3);
+        String message=userService.updateOffer(update);
         return ResponseEntity.status(HttpStatus.OK).body(message);
 
     }
@@ -163,10 +160,4 @@ public class UserController {
                 })
                 .orElse(ResponseEntity.status(HttpStatus.NOT_FOUND).body(null));
     }
-
-
-
-
-
-
 }
