@@ -144,10 +144,10 @@ public class UserService {
     public String createOffer(Offers offers){
 
         OfferModel offerModel=OfferModel.builder()
-                .offer_name(offers.getOffer_name())
-                .Description(offers.getDescription())
-                .start_date(offers.getStart_date())
-                .end_date(offers.getEnd_date())
+                .name(offers.getOffer_name())
+                .description(offers.getDescription())
+                .startdate(offers.getStart_date())
+                .endate(offers.getEnd_date())
                 .build();
 
         offerRepository.save(offerModel);
@@ -161,7 +161,7 @@ public class UserService {
         OfferModel offerModel=offerRepository.findByName(name).orElseThrow(()->new ResourceNahiMilaException());
 
 
-        offerModel.setOffer_name(updateofferdescripton.getDescription());
+        offerModel.setName(updateofferdescripton.getDescription());
 
         offerRepository.save(offerModel);
 
@@ -174,7 +174,7 @@ public class UserService {
 
         String name=updateOfferStartDate.getName();
         OfferModel offerModel=offerRepository.findByName(name).orElseThrow(()->new ResourceNahiMilaException("No such offer found"));
-        offerModel.setStart_date(updateOfferStartDate.getStart_date());
+        offerModel.setStartdate(updateOfferStartDate.getStart_date());
         offerRepository.save(offerModel);
         return "Updated Start date";
     }
@@ -182,7 +182,7 @@ public class UserService {
     public String UpdateOfferEndDate(UpdateOfferEndDate updateOfferEndDate){
         String name=updateOfferEndDate.getName();
         OfferModel offerModel=offerRepository.findByName(name).orElseThrow(()->new ResourceNahiMilaException("No such offer found"));
-        offerModel.setStart_date(updateOfferEndDate.getEnd_date());
+        offerModel.setEndate(updateOfferEndDate.getEnd_date());
         offerRepository.save(offerModel);
         return "Updated End date";
 
@@ -201,10 +201,10 @@ public class UserService {
             offerModel.setDescription(updateoffer.getDescription());
 
 
-            offerModel.setStart_date(updateoffer.getStart_date());
+            offerModel.setStartdate(updateoffer.getStart_date());
 
 
-            offerModel.setEnd_date(updateoffer.getEnd_date());
+            offerModel.setEndate(updateoffer.getEnd_date());
 
         return "Updated Successfully";
     }
@@ -250,6 +250,7 @@ public class UserService {
 
 
     public String createFile(Adminfile adminFile){
+
 
 
         String username=jwtHelper.extractUsername(adminFile.getUsername());

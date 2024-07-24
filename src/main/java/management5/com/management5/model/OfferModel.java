@@ -19,15 +19,15 @@ public class OfferModel {
     @Column(name = "ID",nullable = false)
     private Long id;
 
-    @Column(name ="Offer Name",length = 80,nullable = false)
-    private String offer_name;
+    @Column(name ="Offer_Name",length = 80,nullable = false)
+    private String name;
 
-    @Column(name="Start Date",nullable = false)
-    private LocalDateTime start_date;
+    @Column(name="Start_Date",nullable = false)
+    private LocalDateTime startdate;
 
-    @Column(name = "End Date",nullable = false)
-    private LocalDateTime end_date;
+    @Column(name = "End_Date",nullable = false)
+    private LocalDateTime endate;
 
-    @Column(name = "Description", nullable = false)
-    private String Description;
+    @Column(name = "description", nullable = false)
+    private String description;
 }
